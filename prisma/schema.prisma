@@ -18,7 +18,7 @@ model Empresa {
   CEP Int
   endereco String
   numero Int
-  complemento String
+  complemento String ?
   bairro String
   cidade String
   UF String
