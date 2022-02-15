@@ -24,6 +24,35 @@ export class AppService {
       data: data,
     });
 
-    return company;
+    return `message: ${company.razaoSocial} criado com sucesso!`;
+  }
+
+  async GetAllCompany() {
+    const empresas = await this.db.empresa.findMany();
+
+    if (!empresas) {
+      return null;
+    }
+
+    const dataEmpresaFilter = [];
+
+    empresas.map((empresa) => {
+      const empresaObj = {
+        id: empresa.id,
+        razaoSocial: empresa.razaoSocial,
+        CNPJ: empresa.CNPJ,
+        endereco: empresa.endereco,
+        numero: empresa.numero,
+        bairro: empresa.bairro,
+        cidade: empresa.cidade,
+        UF: empresa.UF,
+        CEP: empresa.CEP,
+        dataAbertura: empresa.dataAbertura,
+      };
+
+      dataEmpresaFilter.push(empresaObj);
+    });
+
+    return dataEmpresaFilter;
   }
 }

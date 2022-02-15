@@ -1,6 +1,9 @@
 import { IsEmail, IsDate, Length, IsInt, Max, IsEmpty } from 'class-validator';
 
 export class CreateCompanyDto {
+  @IsEmpty()
+  razaoSocial: string;
+
   @Length(0, 14)
   @IsEmpty()
   CNPJ: string;

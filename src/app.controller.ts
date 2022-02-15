@@ -10,4 +10,9 @@ export class AppController {
   createCompany(@Body() data: CreateCompanyDto) {
     return this.appService.Create(data);
   }
+
+  @Get('/list')
+  getAllCompany() {
+    return this.appService.GetAllCompany();
+  }
 }
