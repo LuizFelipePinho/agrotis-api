@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 // import { Empresa } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateCompanyDto } from './dto/empresa.dto';
@@ -24,7 +28,7 @@ export class AppService {
       data: data,
     });
 
-    return `message: ${company.razaoSocial} criado com sucesso!`;
+    return `${company.razaoSocial} criado com sucesso!`;
   }
 
   async GetAllCompany() {
@@ -54,5 +58,21 @@ export class AppService {
     });
 
     return dataEmpresaFilter;
+  }
+
+  async DeleteCompany(id) {
+    const idExist = await this.db.empresa.findUnique({
+      where: { id: id },
+    });
+
+    if (!idExist) {
+      throw new NotFoundException('Empresa não existe');
+    }
+
+    const deleteComp = await this.db.empresa.delete({
+      where: { id: id },
+    });
+
+    return deleteComp;
   }
 }

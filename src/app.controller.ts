@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateCompanyDto } from './dto/empresa.dto';
 
@@ -14,5 +14,10 @@ export class AppController {
   @Get('/list')
   getAllCompany() {
     return this.appService.GetAllCompany();
+  }
+
+  @Delete('/delete/:id')
+  deleteCompany(@Param('id') id: string) {
+    return this.appService.DeleteCompany(id);
   }
 }
