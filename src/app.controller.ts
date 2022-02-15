@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateCompanyDto } from './dto/empresa.dto';
 
@@ -19,5 +27,10 @@ export class AppController {
   @Delete('/delete/:id')
   deleteCompany(@Param('id') id: string) {
     return this.appService.DeleteCompany(id);
+  }
+
+  @Put('/atCompany/:id')
+  at(@Param('id') id: string, @Body() data: CreateCompanyDto) {
+    return this.appService.updatedCompany(id, data);
   }
 }

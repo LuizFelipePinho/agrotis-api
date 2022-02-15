@@ -75,4 +75,19 @@ export class AppService {
 
     return deleteComp;
   }
+
+  async updatedCompany(id, data) {
+    const companyExist = await this.db.empresa.findUnique({
+      where: { id },
+    });
+
+    if (companyExist) {
+      const atData = await this.db.empresa.update({
+        where: { id },
+        data: { ...data },
+      });
+
+      return atData;
+    }
+  }
 }
