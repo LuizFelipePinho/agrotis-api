@@ -11,18 +11,22 @@ datasource db {
 }
 
 model Empresa {
-  id String @id @default(uuid())
-  razaoSocial String
-  CNPJ String @unique
-  email String @unique
+  id           String   @id @default(uuid())
+  razaoSocial  String
+  CNPJ         String   @unique
+  email        String   @unique
   dataAbertura DateTime
-  CEP Int
-  endereco String
-  numero Int
-  complemento String ?
-  bairro String
-  cidade String
-  UF String
+  CEP          Int
+  endereco     String
+  numero       Int
+  complemento  String?
+  bairro       String
+  cidade       String
+  UF           String
+}
 
-
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
 }
