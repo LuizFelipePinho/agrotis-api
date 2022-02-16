@@ -20,12 +20,14 @@ export class UserService {
     return createUser;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findAll() {
+    return `This action returns all user`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
