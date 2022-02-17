@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -14,9 +14,17 @@ export class UserService {
       password: await bcrypt.hash(createUserDto.password, 10),
     };
 
-    const createUser = await this.prisma.user.create({ data });
-    delete createUser.password;
+    const userExist = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
 
+    if (userExist) {
+      throw new ConflictException('Email já está cadastrado');
+    }
+
+    const createUser = await this.prisma.user.create({
+      data: data,
+    });
     return createUser;
   }
 
