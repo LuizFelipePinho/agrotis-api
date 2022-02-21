@@ -9,14 +9,16 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateCompanyDto } from './dto/empresa.dto';
+import { CurrentUser } from './auth/decorators/current-user.decorator';
+import { User } from '@prisma/client';
 
-@Controller()
+@Controller('company')
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
+  // a ideia é pegar os dados do usuario logado e relacionar com a empresa que ele está criando, pra quando quiser deletar, atualizar ou excluir fazer isso somente na empresa que ele criou
   @Post('/create')
-  createCompany(@Body() data: CreateCompanyDto) {
-    return this.appService.Create(data);
+  createCompany(@Body() data, @CurrentUser() user: User) {
+    return this.appService.Create(data, user);
   }
 
   @Get('/list')

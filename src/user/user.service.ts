@@ -25,6 +25,7 @@ export class UserService {
     const createUser = await this.prisma.user.create({
       data: data,
     });
+    delete createUser.password;
     return createUser;
   }
 

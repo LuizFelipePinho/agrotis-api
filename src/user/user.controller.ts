@@ -10,13 +10,15 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { User } from '@prisma/client';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // a ideia é pegar os dados do usuario logado e relacionar com a empresa que ele está criando, pra quando quiser deletar, atualizar ou excluir fazer isso somente na empresa que ele criou
+  @IsPublic()
   @Post('/create')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);

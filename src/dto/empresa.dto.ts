@@ -1,7 +1,7 @@
 import { IsEmail, IsDate, Length, IsInt, Max, IsEmpty } from 'class-validator';
 
 export class CreateCompanyDto {
-  @IsEmpty()
+  // @IsEmpty()
   razaoSocial: string;
 
   @Length(0, 14)
@@ -35,16 +35,6 @@ export class CreateCompanyDto {
 
   @Max(3)
   UF: string;
-}
 
-// id String @id @default(uuid())
-// CNPJ String @unique
-// email String @unique
-// dataAbertura DateTime
-// CEP Int
-// endereco String
-// numero Int
-// complemento String
-// bairro String
-// cidade String
-// UF String
+  author: string;
+}

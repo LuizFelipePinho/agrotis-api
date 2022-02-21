@@ -3,15 +3,16 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-// import { Empresa } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
-import { CreateCompanyDto } from './dto/empresa.dto';
+// import { CreateCompanyDto } from './dto/empresa.dto';
+// import { AuthRequest } from './models/authRequest';
+// import { AuthRequest } from './auth/models/authRequest';
 
 @Injectable()
 export class AppService {
   constructor(private db: PrismaService) {}
 
-  async Create(data: CreateCompanyDto) {
+  async Create(data, user) {
     const CompanyExist = await this.db.empresa.findUnique({
       where: { email: data.email },
     });
@@ -25,7 +26,14 @@ export class AppService {
     }
 
     const company = await this.db.empresa.create({
-      data: data,
+      data: {
+        ...data,
+        author: {
+          connect: {
+            email: user.email,
+          },
+        },
+      },
     });
 
     return `${company.razaoSocial} criado com sucesso!`;
