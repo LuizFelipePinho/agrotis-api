@@ -33,8 +33,8 @@ export class UserService {
     return createUser;
   }
 
-  findByEmail(email: string) {
-    return this.prisma.user.findUnique({
+  async findByEmail(email: string) {
+    return await this.prisma.user.findUnique({
       where: { email },
     });
   }
@@ -57,9 +57,5 @@ export class UserService {
     });
 
     return `${atData.id} atualizado com sucesso!`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }
