@@ -27,8 +27,8 @@ export class AppController {
   }
 
   @Delete('/delete/:id')
-  deleteCompany(@Param('id') id: string) {
-    return this.appService.DeleteCompany(id);
+  deleteCompany(@Param('id') id: string, @CurrentUser() user: User) {
+    return this.appService.DeleteCompany(id, user);
   }
 
   @Put('/atCompany/:id')

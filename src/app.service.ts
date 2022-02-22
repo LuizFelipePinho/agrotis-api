@@ -1,12 +1,11 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-// import { CreateCompanyDto } from './dto/empresa.dto';
-// import { AuthRequest } from './models/authRequest';
-// import { AuthRequest } from './auth/models/authRequest';
+import CompareEmail from './auth/utils/compareAuthor';
 
 @Injectable()
 export class AppService {
@@ -68,20 +67,29 @@ export class AppService {
     return dataEmpresaFilter;
   }
 
-  async DeleteCompany(id) {
+  async DeleteCompany(id, user) {
     const idExist = await this.db.empresa.findUnique({
       where: { id: id },
+      include: {
+        author: true,
+      },
     });
 
     if (!idExist) {
       throw new NotFoundException('Empresa não existe');
     }
 
+    const IsAuthor = CompareEmail(idExist.author.email, user.email);
+
+    if (!IsAuthor) {
+      throw new ForbiddenException('Company created by another user');
+    }
+
     const deleteComp = await this.db.empresa.delete({
       where: { id: id },
     });
 
-    return deleteComp;
+    return `${deleteComp.razaoSocial} deleted successfully!`;
   }
 
   async updatedCompany(id, data) {
