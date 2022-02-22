@@ -1,0 +1,5 @@
+// chave aleatoria de encriptação
+JWT_SECRET=""
+
+// link database
+DATABASE_URL=""
