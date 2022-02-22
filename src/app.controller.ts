@@ -32,7 +32,7 @@ export class AppController {
   }
 
   @Put('/atCompany/:id')
-  at(@Param('id') id: string, @Body() data: CreateCompanyDto) {
-    return this.appService.updatedCompany(id, data);
+  at(@Param('id') id: string, @Body() data, @CurrentUser() user: User) {
+    return this.appService.updatedCompany(id, data, user);
   }
 }

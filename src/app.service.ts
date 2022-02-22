@@ -67,7 +67,7 @@ export class AppService {
     return dataEmpresaFilter;
   }
 
-  async DeleteCompany(id, user) {
+  async DeleteCompany(id, dataUserLogged) {
     const idExist = await this.db.empresa.findUnique({
       where: { id: id },
       include: {
@@ -79,7 +79,7 @@ export class AppService {
       throw new NotFoundException('Empresa não existe');
     }
 
-    const IsAuthor = CompareEmail(idExist.author.email, user.email);
+    const IsAuthor = CompareEmail(idExist.author.email, dataUserLogged.email);
 
     if (!IsAuthor) {
       throw new ForbiddenException('Company created by another user');
@@ -92,10 +92,22 @@ export class AppService {
     return `${deleteComp.razaoSocial} deleted successfully!`;
   }
 
-  async updatedCompany(id, data) {
+  async updatedCompany(id, data, dataUserLogged) {
     const companyExist = await this.db.empresa.findUnique({
       where: { id },
+      include: {
+        author: true,
+      },
     });
+
+    const IsAuthor = CompareEmail(
+      companyExist.author.email,
+      dataUserLogged.email,
+    );
+
+    if (!IsAuthor) {
+      throw new ForbiddenException('Company created by another user');
+    }
 
     if (companyExist) {
       const atData = await this.db.empresa.update({
