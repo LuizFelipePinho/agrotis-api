@@ -8,7 +8,6 @@ import {
   Put,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateCompanyDto } from './dto/empresa.dto';
 import { CurrentUser } from './auth/decorators/current-user.decorator';
 import { User } from '@prisma/client';
 
